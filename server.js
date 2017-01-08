@@ -53,16 +53,18 @@ app.get('/search/:searchTerm', function(req, res) {
 
             response.on('end', function() {
                 var responseObject = JSON.parse(responseString);
-                res.send(responseObject.photos.photo.map(function(currentValue) {
-                    var item = {}
-                    item.url = 'https://farm' + currentValue.farm + '.staticflickr.com/'
-                    item.url += currentValue.server + '/' + currentValue.id + '_'
-                    item.url += currentValue.secret + '.jpg'
-                    item.alt = currentValue.title
-                    item.context = 'https://www.flickr.com/photos/' + currentValue.owner + '/'
-                    item.context += currentValue.id
-                    return item
-                }));
+                if (responseObject && responseObject.photos && responseObject.photos.photo) {
+                    res.send(responseObject.photos.photo.map(function(currentValue) {
+                        var item = {}
+                        item.url = 'https://farm' + currentValue.farm + '.staticflickr.com/'
+                        item.url += currentValue.server + '/' + currentValue.id + '_'
+                        item.url += currentValue.secret + '.jpg'
+                        item.alt = currentValue.title
+                        item.context = 'https://www.flickr.com/photos/' + currentValue.owner + '/'
+                        item.context += currentValue.id
+                        return item
+                    }))
+                }
                 res.end()
             })
             
