@@ -31,7 +31,7 @@ app.get('/search/:searchTerm', function(req, res) {
         if (err) throw err
         
         var flickrUrl = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&format=json&nojsoncallback=1&per_page=10&api_key='
-        flickrUrl += process.env.FLICKER_API_KEY
+        flickrUrl += process.env.FLICKR_API_KEY
         flickrUrl += '&text='
         flickrUrl += req.params.searchTerm
         
@@ -39,8 +39,6 @@ app.get('/search/:searchTerm', function(req, res) {
             flickrUrl += '&page='
             flickrUrl += req.query.offset
         }
-        
-        console.log(flickrUrl)
 
         https.get(flickrUrl, function(response) {
             response.setEncoding('utf-8')
